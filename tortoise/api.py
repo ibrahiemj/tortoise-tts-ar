@@ -29,7 +29,7 @@ pbar = None
 DEFAULT_MODELS_DIR = os.path.join(os.path.expanduser('~'), '.cache', 'tortoise', 'models')
 MODELS_DIR = os.environ.get('TORTOISE_MODELS_DIR', DEFAULT_MODELS_DIR)
 MODELS = {
-    'autoregressive.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/autoregressive.pth',
+    'arabic_tortoise_gpt.pth': 'https://huggingface.co/ibrahimj/podcasts-tkhayal/resolve/main/arabic_tortoise_gpt.pth',
     'classifier.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/classifier.pth',
     'clvp2.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/clvp2.pth',
     'cvvp.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/cvvp.pth',
@@ -45,7 +45,10 @@ def get_model_path(model_name, models_dir=MODELS_DIR):
     """
     if model_name not in MODELS:
         raise ValueError(f'Model {model_name} not found in available models.')
-    model_path = hf_hub_download(repo_id="Manmay/tortoise-tts", filename=model_name, cache_dir=models_dir)
+    if model_name == "arabic_tortoise_gpt":
+        model_path = hf_hub_download(repo_id="ibrahimj/podcasts-tkhayal", filename=model_name, cache_dir=models_dir)
+    else:
+        model_path = hf_hub_download(repo_id="Manmay/tortoise-tts", filename=model_name, cache_dir=models_dir)
     return model_path
 
 
@@ -214,7 +217,7 @@ class TextToSpeech:
                                           model_dim=1024,
                                           heads=16, number_text_tokens=255, start_text_token=255, checkpointing=False,
                                           train_solo_embeddings=False).cpu().eval()
-            self.autoregressive.load_state_dict(torch.load(get_model_path('autoregressive.pth', models_dir)), strict=False)
+            self.autoregressive.load_state_dict(torch.load(get_model_path('arabic_tortoise_gpt.pth', models_dir)), strict=False)
             self.autoregressive.post_init_gpt2_config(use_deepspeed=use_deepspeed, kv_cache=kv_cache, half=self.half)
             
             self.diffusion = DiffusionTts(model_channels=1024, num_layers=10, in_channels=100, out_channels=200,
