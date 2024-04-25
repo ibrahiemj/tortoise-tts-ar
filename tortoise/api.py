@@ -45,7 +45,7 @@ def get_model_path(model_name, models_dir=MODELS_DIR):
     """
     if model_name not in MODELS:
         raise ValueError(f'Model {model_name} not found in available models.')
-    if model_name == "arabic_tortoise_gpt":
+    if model_name == "arabic_tortoise_gpt.pth":
         model_path = hf_hub_download(repo_id="ibrahimj/podcasts-tkhayal", filename=model_name, cache_dir=models_dir)
     else:
         model_path = hf_hub_download(repo_id="Manmay/tortoise-tts", filename=model_name, cache_dir=models_dir)
