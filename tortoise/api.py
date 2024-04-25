@@ -29,7 +29,7 @@ pbar = None
 DEFAULT_MODELS_DIR = os.path.join(os.path.expanduser('~'), '.cache', 'tortoise', 'models')
 MODELS_DIR = os.environ.get('TORTOISE_MODELS_DIR', DEFAULT_MODELS_DIR)
 MODELS = {
-    'arabic_tortoise_gpt.pth': 'https://huggingface.co/ibrahimj/podcasts-tkhayal/resolve/main/arabic_tortoise_gpt.pth',
+    'arabic_tortoise_gpt.pth': 'https://huggingface.co/ibrahimj/arabic_tortoise/resolve/main/arabic_tortoise_gpt.pth',
     'classifier.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/classifier.pth',
     'clvp2.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/clvp2.pth',
     'cvvp.pth': 'https://huggingface.co/jbetker/tortoise-tts-v2/resolve/main/.models/cvvp.pth',
@@ -46,7 +46,7 @@ def get_model_path(model_name, models_dir=MODELS_DIR):
     if model_name not in MODELS:
         raise ValueError(f'Model {model_name} not found in available models.')
     if model_name == "arabic_tortoise_gpt.pth":
-        model_path = hf_hub_download(repo_id="ibrahimj/podcasts-tkhayal", filename=model_name, cache_dir=models_dir)
+        model_path = hf_hub_download(repo_id="ibrahimj/arabic_tortoise", filename=model_name, cache_dir=models_dir)
     else:
         model_path = hf_hub_download(repo_id="Manmay/tortoise-tts", filename=model_name, cache_dir=models_dir)
     return model_path
